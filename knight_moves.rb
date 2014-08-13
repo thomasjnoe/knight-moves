@@ -7,6 +7,8 @@ class BoardSquare
 end
 
 def knight_moves(start, finish)
+	return "You entered an invalid starting position" unless is_valid_position?(start) 
+	return "You entered an invalid ending position" unless is_valid_position?(finish)
 	queue = [BoardSquare.new(start, [start])] 
 	visited = [start]
 	until queue.empty?
@@ -33,7 +35,11 @@ def possible_moves(pos)
 	changes = [[-2,-1],[-2,1],[-1,-2],[-1,2],[2,-1],[2,1],[1,-2],[1,2]]
 	moves = []
 	changes.each { |change| moves << [pos[0]+change[0], pos[1]+change[1]] }
-	moves.select { |move| (move[0] > -1 && move[0] < 8) && (move[1] > -1 && move[1] < 8) }.shuffle # randomized for debugging
+	moves.select { |move| is_valid_position?(move) }
+end
+
+def is_valid_position?(pos)
+	return (pos[0] > -1 && pos[0] < 8) && (pos[1] > -1 && pos[1] < 8) ? true : false
 end
 
 puts knight_moves([3,3],[4,3])
