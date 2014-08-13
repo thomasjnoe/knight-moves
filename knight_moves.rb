@@ -9,6 +9,7 @@ end
 def knight_moves(start, finish)
 	return "You entered an invalid starting position" unless is_valid_position?(start) 
 	return "You entered an invalid ending position" unless is_valid_position?(finish)
+	return "You're already on that position!" if start == finish
 	queue = [BoardSquare.new(start, [start])] 
 	visited = [start]
 	until queue.empty?
@@ -18,8 +19,12 @@ def knight_moves(start, finish)
 		
 		if possible_moves.include?(finish)
 			current.path << finish
-			puts "You made it in #{current.path.size-1} moves! Here's your path:"
-			current.path.each { |x,y| puts "[#{x},#{y}]"}
+			if current.path.size-1 == 1
+				puts "You made it in #{current.path.size-1} move! Here's your path:"
+			else
+				puts "You made it in #{current.path.size-1} moves! Here's your path"
+			end
+			current.path.each { |pos| p pos }
 			return
 		end
 		
@@ -43,6 +48,7 @@ def is_valid_position?(pos)
 end
 
 puts knight_moves([3,3],[4,3])
+
 
 
 
